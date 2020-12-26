@@ -1,7 +1,7 @@
 .popup__input {
   margin: 30px 0 0 0;
   border: 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
   font-size: 14px;
   line-height: 17px;
   padding: 0 0 13px 0;
@@ -14,7 +14,7 @@
 
 .popup__input:focus {
   outline: none;
-  box-shadow: 0 0 0 1px black;
+  box-shadow: 0 0 0 2px #1cd;
   border-radius: 2px;
 }
 
