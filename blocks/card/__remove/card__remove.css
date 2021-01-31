@@ -1,0 +1,17 @@
+.card__remove {
+  position: absolute;
+  top: 18px;
+  right: 15px;
+  background: none;
+  background-image: url(../../../images/remove-icon.svg);
+  background-position: center; 
+  background-repeat: no-repeat;
+  cursor: pointer;
+  width: 18px;
+  height: 19px;
+  border: none;
+}
+
+.card__remove:hover {
+  opacity: .6;
+}

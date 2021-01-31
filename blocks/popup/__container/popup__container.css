@@ -15,3 +15,11 @@
     padding: 25px 22px;
   }
 }
+
+.popup__container_type_image {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  width: auto;
+  max-width: 75vw;
+}

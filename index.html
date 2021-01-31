@@ -23,48 +23,6 @@
       </section>
       <section class = "cards page__cards">
         <ul class="cards__list">
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаево-Черкессия</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаевск</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаевск</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаевск</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаевск</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
-          <li class="card">
-            <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск"> 
-            <div class="card__description">
-              <h2 class="card__title">Карачаевск</h2>
-              <button class="card__like" type="button" aria-label="Лайк"></button>
-            </div>
-          </li>
         </ul>
       </section>
     </main>
@@ -73,17 +31,50 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup popup_type_edit-profile">
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="submit-form">
+        <form class="popup__form" name="edit-profile">
           <input class="popup__input popup__input_type_name" type="text" name="username">
           <input class="popup__input popup__input_type_status" type="text" name="status">
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
       </div>
     </div>
+
+    <div class="popup popup_type_new-card">
+      <div class="popup__container">
+        <button type="button" class="popup__close-button" aria-label="Закрыть"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form name="newRecord" class="popup__form" action="#" method="POST">
+          <input type="text" name="card-name" class="popup__input popup__input_type_name" placeholder="Название" required>
+          <input type="url" name="card-url" class="popup__input popup__input_type_link" placeholder="Ссылка на картинку" required>
+          <button type="submit" class="popup__save-button">Создать</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_image">
+      <div class="popup__container popup__container_type_image">
+        <div class="popup__close-button"></div>
+        <figure class="popup__figure">
+          <img class="popup__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" alt="">
+          <figcaption class="popup__caption">Байкал</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <template id="card-template">
+      <li class="card">
+        <img class="card__image" src="images/karachaevsk.png" alt="Карачаевск">
+        <button class="card__remove"></button> 
+        <div class="card__description">
+          <h2 class="card__title">Карачаево-Черкессия</h2>
+          <button class="card__like" type="button" aria-label="Лайк"></button>
+        </div>
+      </li>
+    </template>
     <script src="scripts/index.js"></script>
   </body>
 </html>
