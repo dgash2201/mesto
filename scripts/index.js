@@ -121,7 +121,7 @@ function handleAddButton(event) {
   cardNameInput.value = '';
   cardLinkInput.value = '';
 
-  prepareInputs(cardForm, [cardNameInput, cardLinkInput], 'popup');
+  prepareInputs(cardForm, [cardNameInput, cardLinkInput], 'popup__input_type_error');
   disableButton(cardSaveButton, 'popup__save-button_inactive');
   openPopup(cardPopup);
 };
