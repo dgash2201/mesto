@@ -32,6 +32,10 @@ function handleEscape(event) {
   }
 }
 
+function handleOverlayClick(event) {
+  if (event.target.classList.contains('popup')) closePopup(event.target);
+}
+
 function disableButton(buttonElement, inactiveButtonClass) {
   buttonElement.classList.add(inactiveButtonClass);
   buttonElement.disabled = true;
@@ -43,11 +47,13 @@ function prepareInputs(form, inputList, inputErrorClass) {
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  popup.addEventListener('click', handleOverlayClick);
   page.addEventListener('keydown', handleEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', handleOverlayClick)
   page.removeEventListener('keydown', handleEscape);
 }
 
@@ -118,9 +124,7 @@ function handleAddCardForm(event) {
 }
 
 function handleAddButton(event) {
-  cardNameInput.value = '';
-  cardLinkInput.value = '';
-
+  cardForm.reset();
   prepareInputs(cardForm, [cardNameInput, cardLinkInput], 'popup__input_type_error');
   disableButton(cardSaveButton, 'popup__save-button_inactive');
   openPopup(cardPopup);
@@ -136,12 +140,6 @@ profilePopup.querySelector('.popup__close-button').addEventListener('click', () 
 
 cardPopup.addEventListener('submit', handleAddCardForm);
 cardPopup.querySelector('.popup__close-button').addEventListener('click', () => closePopup(cardPopup));
-
-popups.forEach((popup) => {
-  popup.addEventListener('click', (event) => {
-    if (event.target.classList.contains('popup')) closePopup(popup);
-  });
-});
 
 initialCards.forEach((cardData) => {
   renderCard(cardsList, createCard(cardData));
