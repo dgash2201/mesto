@@ -3,7 +3,7 @@ class Card {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
-    this._handlePreviewPicture = previewPictureHandler;
+    this._previewPictureHandler = previewPictureHandler;
   }
   
   create() {
@@ -31,7 +31,7 @@ class Card {
   }
 
   _setEventListeners() {
-    this._image.addEventListener('click', () => this._handlePreviewPicture({
+    this._image.addEventListener('click', () => this._previewPictureHandler({
       name: this._name,
       link: this._link
     }));

@@ -39,7 +39,6 @@ const profileFormValidator = new FormValidator(settings, profilePopupForm, profi
 const cardFormValidator = new FormValidator(settings, cardPopupForm, profileAddButton);
 const templateSelector = '#card-template';
 
-
 function handleEscape(event) {
   if (event.key === 'Escape') {
     const openedPopup = page.querySelector('.popup_opened');
