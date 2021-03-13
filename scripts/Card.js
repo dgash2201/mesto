@@ -1,9 +1,9 @@
 class Card {
-  constructor(data, templateSelector, handlePreviewPicture) {
+  constructor(data, templateSelector, previewPictureHandler) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
-    this._handlePreviewPicture = handlePreviewPicture;
+    this._handlePreviewPicture = previewPictureHandler;
   }
   
   create() {

@@ -37,11 +37,11 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="edit-profile" novalidate>
           <label class="popup__field">
-            <input class="popup__input popup__input_type_name" type="text" name="username" id="username" minlength=2 maxlength=40 required>
+            <input class="popup__input popup__input_type_name" type="text" name="username" id="username" placeholder="Имя" minlength=2 maxlength=40 required>
             <span class="popup__input-error username-error"></span>
           </label>
           <label class="popup__field">
-            <input class="popup__input popup__input_type_status" type="text" name="status" id="status" minlength=2 maxlength=200 required>
+            <input class="popup__input popup__input_type_status" type="text" name="status" id="status" placeholder="Статус" minlength=2 maxlength=200 required>
             <span class="popup__input-error status-error"></span>
           </label>
           <button class="popup__save-button popup__save-button_inactive" type="submit" disabled>Сохранить</button>
@@ -88,6 +88,7 @@
       </li>
     </template>
 
+    <script src="scripts/initial-cards.js"></script>
     <script type="module" src="scripts/index.js"></script>
     <script type="module" src="scripts/Card.js"></script>
     <script type="module" src="scripts/FormValidator.js"></script>
