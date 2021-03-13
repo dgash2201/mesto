@@ -86,8 +86,7 @@ function handlePreviewPicture(cardData) {
 }
 
 function createCard(cardData) {
-  const card = new Card(cardData, templateSelector, handlePreviewPicture);
-  cardsList.prepend(card.create());
+  return new Card(cardData, templateSelector, handlePreviewPicture).create();
 }
 
 function addCard(container, cardElement) {
@@ -97,10 +96,10 @@ function addCard(container, cardElement) {
 function handleAddCardForm(event) {
   event.preventDefault();
 
-  createCard({
+  addCard(cardsList, createCard({
     name: cardPopupNameInput.value, 
     link: cardPopupLinkInput.value 
-  });
+  }));
 
   closePopup(cardPopup);
 }
@@ -122,7 +121,7 @@ cardPopup.addEventListener('submit', handleAddCardForm);
 cardPopupCloseButton.addEventListener('click', () => closePopup(cardPopup));
 
 initialCards.forEach((cardData) => {
-  createCard(cardData);
+  addCard(cardsList, createCard(cardData));
 });
 
 cardFormValidator.enableValidation();
