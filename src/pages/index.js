@@ -68,16 +68,27 @@ function handleProfileForm(userData) {
   });
 }
 
+function prepareForm(formValidator) {
+  formValidator.prepareInputs();
+  formValidator.disableButton();
+}
+
+function handleCardPopupOpening() {
+  prepareForm(cardFormValidator);
+  cardPopup.open();
+}
+
 function handleProfilePopupOpening() {
   const userData = userInfo.getUserInfo();
 
   profileNameInput.value = userData.username;
   profileStatusInput.value = userData.status;
 
+  prepareForm(profileFormValidator);
   profilePopup.open();
 }
 
-profileAddButton.addEventListener('click', () => cardPopup.open());
+profileAddButton.addEventListener('click', handleCardPopupOpening);
 profileEditButton.addEventListener('click', handleProfilePopupOpening);
 
 cardFormValidator.enableValidation();
