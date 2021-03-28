@@ -6,10 +6,14 @@ import PopupWithImage from '../scripts/components/PopupWithImage.js';
 import UserInfo from '../scripts/components/UserInfo.js';
 import './index.css';
 import { Api } from '../scripts/components/Api.js';
+import PopupWithConfirm from '../scripts/components/PopupWithConfirm.js';
 
 const api = new Api({
-  token: '61dd454c-d1c5-452b-8062-22ed0eb542c2',
-  cohortId: 'cohort-21'
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
+  headers: {
+    authorization: '61dd454c-d1c5-452b-8062-22ed0eb542c2',
+    'Content-Type': 'application/json'
+  }
 });
 
 const userInfo = new UserInfo({
@@ -22,6 +26,7 @@ const cardPopup = new PopupWithForm('.popup_type_new-card', handleCardForm);
 const profilePopup = new PopupWithForm('.popup_type_edit-profile', handleProfileForm);
 const avatarPopup = new PopupWithForm('.popup_type_edit-avatar', handleAvatarForm);
 const imagePopup = new PopupWithImage('.popup_type_image');
+const confirmPopup = new PopupWithConfirm('.popup_type_confirm');
 
 const cardPopupForm = cardPopup.getFormElement();
 const profilePopupForm = profilePopup.getFormElement();
@@ -55,17 +60,23 @@ const cardsList = new Section({
   }, 
 }, '.cards__list');
 
+function handleError(err) {
+  console.log(err);
+}
+
 function handleCardClick(cardData) {
   imagePopup.open(cardData);
 }
 
 function handleDeleteButton(card) {
-  const confirmPopup = new PopupWithForm('.popup_type_confirm', () => {
-    api.deleteCard(card.getId());
-    card.delete();
+  confirmPopup.open(() => {
+    api.deleteCard(card.getId())
+      .catch(handleError)
+      .finally(() => {
+        confirmPopup.close();
+        card.delete();
+      });    
   });
-  confirmPopup.setEventListeners();
-  confirmPopup.open();
 }
 
 function makeLikeRequest(card) {
@@ -98,6 +109,7 @@ function handleCardForm(event, formValues, saveButton) {
       const cardElement = createCard(cardData);
       cardsList.addItem(cardElement);
     })
+    .catch(handleError)
     .finally(() => {
       cardPopup.close();
       renderLoading(false, saveButton);
@@ -112,6 +124,7 @@ function handleProfileForm(event, userData, saveButton) {
     about: userData.status,
   })
     .then(responseData => userInfo.setUserInfo(responseData))
+    .catch(handleError)
     .finally(() => {
       profilePopup.close();
       renderLoading(false, saveButton);
@@ -123,10 +136,11 @@ function handleAvatarForm(event, {link}, saveButton) {
   renderLoading(true, saveButton);
   api.editUserAvatar(link)
     .then((data) => userInfo.setUserInfo(data))
+    .catch(handleError)
     .finally(() => {
       avatarPopup.close();
       renderLoading(false, saveButton);
-    })
+    });
 }
 
 function prepareForm(formValidator) {
@@ -166,12 +180,14 @@ cardPopup.setEventListeners();
 profilePopup.setEventListeners();
 avatarPopup.setEventListeners();
 imagePopup.setEventListeners();
+confirmPopup.setEventListeners();
 
-api
-  .getUserInfo()
-  .then((userData) => userInfo.setUserInfo(userData));
+api.getUserInfo()
+  .then((userData) => userInfo.setUserInfo(userData))
+  .catch(handleError);
 
 api
   .getInitialCards()
-  .then((initialCards) => cardsList.renderItems(initialCards));
+  .then((initialCards) => cardsList.renderItems(initialCards))
+  .catch(handleError);
 
