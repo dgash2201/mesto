@@ -1,5 +1,5 @@
 class Card {
-  constructor(data, templateSelector, handleCardClick, handleRemoveButton, makeLikeRequest, currentUserId) {
+  constructor({data, templateSelector, handleCardClick, handleRemoveButton, makeLikeRequest, currentUserId}) {
     this._name = data.name;
     this._link = data.link;
     this._ownerId = data.owner._id;

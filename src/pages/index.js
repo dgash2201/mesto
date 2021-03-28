@@ -16,6 +16,8 @@ const api = new Api({
   }
 });
 
+const initialPromises = [api.getUserInfo(), api.getInitialCards()];
+
 const userInfo = new UserInfo({
   usernameSelector: '.profile__name',
   statusSelector: '.profile__status',
@@ -60,6 +62,8 @@ const cardsList = new Section({
   }, 
 }, '.cards__list');
 
+
+
 function handleError(err) {
   console.log(err);
 }
@@ -68,14 +72,14 @@ function handleCardClick(cardData) {
   imagePopup.open(cardData);
 }
 
-function handleDeleteButton(card) {
+function handleRemoveButton(card) {
   confirmPopup.open(() => {
     api.deleteCard(card.getId())
-      .catch(handleError)
-      .finally(() => {
+      .then(() => {
         confirmPopup.close();
         card.delete();
-      });    
+      })
+      .catch(handleError);   
   });
 }
 
@@ -90,7 +94,14 @@ function makeLikeRequest(card) {
 
 function createCard(cardData) {
   const myId = userInfo.getUserId();
-  return new Card(cardData, templateSelector, handleCardClick, handleDeleteButton, makeLikeRequest, myId).create();
+  return new Card({
+    data: cardData, 
+    templateSelector: templateSelector, 
+    handleCardClick: handleCardClick, 
+    handleRemoveButton: handleRemoveButton, 
+    makeLikeRequest: makeLikeRequest, 
+    currentUserId: myId
+  }).create();
 }
 
 function renderLoading(isLoading, button) {
@@ -108,10 +119,10 @@ function handleCardForm(event, formValues, saveButton) {
     .then((cardData) => {
       const cardElement = createCard(cardData);
       cardsList.addItem(cardElement);
+      cardPopup.close();
     })
     .catch(handleError)
     .finally(() => {
-      cardPopup.close();
       renderLoading(false, saveButton);
     })
 }
@@ -123,10 +134,12 @@ function handleProfileForm(event, userData, saveButton) {
     name: userData.username,
     about: userData.status,
   })
-    .then(responseData => userInfo.setUserInfo(responseData))
+    .then(responseData => {
+      userInfo.setUserInfo(responseData);
+      profilePopup.close();
+    })
     .catch(handleError)
     .finally(() => {
-      profilePopup.close();
       renderLoading(false, saveButton);
     })
 }
@@ -135,10 +148,12 @@ function handleAvatarForm(event, {link}, saveButton) {
   event.preventDefault();
   renderLoading(true, saveButton);
   api.editUserAvatar(link)
-    .then((data) => userInfo.setUserInfo(data))
+    .then((data) => {
+      userInfo.setUserInfo(data);
+      avatarPopup.close();
+    })
     .catch(handleError)
     .finally(() => {
-      avatarPopup.close();
       renderLoading(false, saveButton);
     });
 }
@@ -182,12 +197,10 @@ avatarPopup.setEventListeners();
 imagePopup.setEventListeners();
 confirmPopup.setEventListeners();
 
-api.getUserInfo()
-  .then((userData) => userInfo.setUserInfo(userData))
-  .catch(handleError);
-
-api
-  .getInitialCards()
-  .then((initialCards) => cardsList.renderItems(initialCards))
+Promise.all(initialPromises)
+  .then(([userData, initialCards]) => {
+    userInfo.setUserInfo(userData);
+    cardsList.renderItems(initialCards);
+  })
   .catch(handleError);
 
