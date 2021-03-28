@@ -2,8 +2,8 @@
   color: black;
   width: 100%;
   max-width: 246px;
-  margin: 25px auto 31px auto;
+  margin: 22px auto;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
